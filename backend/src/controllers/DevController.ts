@@ -1,13 +1,12 @@
 const axios = require('axios')
-const Dev = require('../models/Dev.model');
-const parseStringAsArray = require('../utils/parseStringAsArray');
-const { findConnections, sendMessage } = require('../websocket');
+import DevModel from "../models/Dev.model";
+import { parseStringAsArray } from "../utils";
+import { findConnections, sendMessage } from "../websocket";
 
 // Funções que um controller geralmente possui: index, show, store, update e destroy
-
-module.exports = {
+const DevController = {
   async index(req, res) {
-    const devs = await Dev.find()
+    const devs = await DevModel.find()
 
     return res.json(devs)
   },
@@ -18,7 +17,7 @@ module.exports = {
     /**
      * Realizando consulta no banco para verificação de usuário já existente
      */
-    let dev = await Dev.findOne({ github_username })
+    let dev = await DevModel.findOne({ github_username })
     
     if(!dev) {
       const response = await axios.get(`https://api.github.com/users/${github_username}`)
@@ -35,7 +34,7 @@ module.exports = {
       /**
        * Realizando a inserção de dados no mongoDb
        */
-      dev = await Dev.create({
+      dev = await DevModel.create({
         github_username,
         name,
         avatar_url,
@@ -55,3 +54,5 @@ module.exports = {
     return res.json(dev)
   }
 }
+
+export default DevController

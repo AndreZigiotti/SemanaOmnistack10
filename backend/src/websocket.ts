@@ -1,11 +1,10 @@
-const socketio = require('socket.io')
-const calculateDistance = require('./utils/calculateDistance')
-const parseStringAsArray = require('./utils/parseStringAsArray')
+const socketio = require('socket.io');
+import { getDistanceFromLatLonInKm, parseStringAsArray } from "./utils";
 
 let io
 const connections = []
 
-exports.setupWebSocket = (server) => {
+const setupWebSocket = (server) => {
   io = socketio(server)
 
   io.on('connection', socket => {
@@ -24,14 +23,20 @@ exports.setupWebSocket = (server) => {
   })
 }
 
-exports.findConnections = (coordinates, techs) => {
+const findConnections = (coordinates, techs) => {
   return connections.filter(con => {
-    return calculateDistance(coordinates, con.coordinates) < 10 && con.techs.some(item => techs.includes(item))
+    return getDistanceFromLatLonInKm(coordinates, con.coordinates) < 10 && con.techs.some(item => techs.includes(item))
   })
 }
 
-exports.sendMessage = (to, message, data) => {
+const sendMessage = (to, message, data) => {
   to.forEach(connection => {
     io.to(connection.id).emit(message, data)
   })
+}
+
+export {
+  setupWebSocket,
+  findConnections,
+  sendMessage
 }

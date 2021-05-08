@@ -1,7 +1,7 @@
-const Dev = require('../models/Dev.model')
-const parseStringAsArray = require('../utils/parseStringAsArray')
+import DevModel from "../models/Dev.model";
+import { parseStringAsArray } from "../utils";
 
-module.exports = {
+const SearchController = {
   /**
    * Buscar devs em um raio de 10km
    * Filtrar por tecnologia
@@ -17,7 +17,7 @@ module.exports = {
     /**
      * Filtrando devs
      */
-    const devs = await Dev.find({
+    const devs = await DevModel.find({
       techs: {
         $in: techsArray,
       },
@@ -35,3 +35,5 @@ module.exports = {
     return res.json({ devs })
   }
 }
+
+export default SearchController

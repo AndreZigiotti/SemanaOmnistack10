@@ -1,8 +1,8 @@
-function deg2rad(deg) {
+function deg2rad(deg: number) {
   return deg * (Math.PI/180)
 }
 
-module.exports = function getDistanceFromLatLonInKm(centerCoordinates, pointCoordinates) {
+function getDistanceFromLatLonInKm(centerCoordinates: any, pointCoordinates: any) {
   const radius = 6371
 
   const { latitude: lat1, longitude: lon1 } = centerCoordinates
@@ -22,3 +22,5 @@ module.exports = function getDistanceFromLatLonInKm(centerCoordinates, pointCoor
 
   return distance
 }
+
+export { getDistanceFromLatLonInKm }

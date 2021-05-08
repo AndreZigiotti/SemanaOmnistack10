@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
+import { Schema } from "mongoose"
 
 /**
  * Criando um novo tipo de dados no mongoDb que armazena informações de geolocalização.
  */
-const PointSchema = new mongoose.Schema({
+const PointSchema = new Schema({
   type: {
     type: String,
     enum: ['Point'],
@@ -15,4 +15,4 @@ const PointSchema = new mongoose.Schema({
   }
 })
 
-module.exports = PointSchema
+export default PointSchema
